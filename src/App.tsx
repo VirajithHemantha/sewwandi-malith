@@ -13,8 +13,15 @@ import { Gallery } from './components/Gallery';
 import { Countdown } from './components/Countdown';
 import { RSVPForm } from './components/RSVPForm';
 import { WishesSection } from './components/WishesSection';
+import { AdminLinkGenerator } from './components/AdminLinkGenerator';
 
 export default function App() {
+  const isAdmin = window.location.pathname === '/admin';
+
+  if (isAdmin) {
+    return <AdminLinkGenerator />;
+  }
+
   const [showInvitation, setShowInvitation] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);

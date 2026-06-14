@@ -10,13 +10,26 @@ export const RSVPForm: React.FC = () => {
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
+  // Google Apps Script Web App URL
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMbOgItCkE8RQ3FH_PvDNAjVkgJcp2o69YHD8h6MPi6GPrrktiTJ15vXqxj3GirHnf/exec';
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
 
     try {
-      // Simulate network request latency
-      await new Promise(resolve => setTimeout(resolve, 800));
+      if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL') {
+        // Fallback to simulated latency if URL is not set
+        await new Promise(resolve => setTimeout(resolve, 800));
+      } else {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            type: 'rsvp',
+            ...formData
+          }),
+        });
+      }
 
       setStatus('success');
       setFormData({ fullName: '', guests: '1', dietaryNotes: '' });
@@ -60,9 +73,17 @@ export const RSVPForm: React.FC = () => {
             Your presence means the world to us. Please kindly let us know if you will be able to join our celebration.
           </p>
           <div className="mt-4 mb-6 bg-brand-champagne/50 px-6 py-4 rounded-2xl border border-brand-beige/20">
-            <p className="text-stone-600 font-sans text-sm font-medium">RSVP Contact</p>
-            <p className="text-stone-800 font-serif text-lg mt-1">Suresh Shanaka</p>
-            <a href="tel:+94776341985" className="text-brand-beige-deep font-sans text-base font-semibold hover:underline">+94 776341985</a>
+            <p className="text-stone-600 font-sans text-sm font-medium mb-3">RSVP Contacts</p>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="text-stone-800 font-serif text-lg">Malith</p>
+                <a href="tel:0768218874" className="text-brand-beige-deep font-sans text-base font-semibold hover:underline">0768218874</a>
+              </div>
+              <div className="flex items-center justify-between">
+                <p className="text-stone-800 font-serif text-lg">Sewwandi</p>
+                <a href="tel:0764757831" className="text-brand-beige-deep font-sans text-base font-semibold hover:underline">0764757831</a>
+              </div>
+            </div>
           </div>
           <div className="w-12 h-[1px] bg-brand-beige/50 mx-auto lg:mx-0" />
         </div>

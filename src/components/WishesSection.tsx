@@ -24,14 +24,27 @@ export const WishesSection: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Google Apps Script Web App URL
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzMbOgItCkE8RQ3FH_PvDNAjVkgJcp2o69YHD8h6MPi6GPrrktiTJ15vXqxj3GirHnf/exec';
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.message) return;
     setIsSubmitting(true);
 
     try {
-      // Simulate network request latency
-      await new Promise(resolve => setTimeout(resolve, 800));
+      if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL') {
+        // Fallback to simulated latency if URL is not set
+        await new Promise(resolve => setTimeout(resolve, 800));
+      } else {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            type: 'wishes',
+            ...formData
+          }),
+        });
+      }
 
       const newWish: Wish = {
         id: Date.now().toString(),

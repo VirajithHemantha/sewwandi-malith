@@ -10,6 +10,14 @@ export const Hero: React.FC = () => {
   const scale = useTransform(scrollY, [0, 800], [1, 1.1]);
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
 
+  const searchParams = new URLSearchParams(window.location.search);
+  const prefix = searchParams.get('prefix');
+  const guestName = searchParams.get('name');
+  
+  const invitationText = guestName 
+    ? `We cordially invite ${prefix ? prefix + ' ' : ''}${guestName}`
+    : "Together with our families, we joyfully invite you to join us";
+
   return (
     <div ref={containerRef} className="relative h-screen flex items-center justify-center overflow-hidden bg-brand-ivory/50">
 
@@ -71,9 +79,9 @@ export const Hero: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-12 sm:mb-16">
             <div className="hidden sm:block h-[1px] w-20 bg-gradient-to-r from-transparent to-brand-beige-deep/40" />
             <p className="text-[1.1rem] sm:text-2xl font-serif italic text-stone-700 tracking-wide px-4 text-center max-w-xl leading-relaxed drop-shadow-[0_2px_4px_rgba(255,255,255,0.5)]">
-              Together with our families, we joyfully invite you to join us
+              {invitationText}
             </p>
-            <div className="hidden sm:block h-[1px] w-20 bg-gradient-to-l from-transparent to-brand-beige-deep/40" />
+            <div className="hidden sm:block h-[1px] w-20 bg-gradient-to-l from-brand-beige-deep/40" />
           </div>
 
           {/* Enhanced Date pill with premium glass effect */}
